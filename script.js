@@ -15,18 +15,24 @@ function alunosAprovados(lista) {
 
   return lista
     .map(aluno => {
-      // Normalização
       return {
         nome: aluno.nome ?? "Sem nome",
-        nota: Number(aluno.nota)
+        // só aceita número válido
+        nota: typeof aluno.nota === "number" ? aluno.nota : NaN
       };
     })
     .filter(aluno => {
-      // Validação
       return !isNaN(aluno.nota) && aluno.nota >= 6;
     });
 }
 
 const aprovados = alunosAprovados(alunos);
 
-console.log(aprovados);
+// EXIBIR NA TELA
+const listaHTML = document.getElementById("lista");
+
+aprovados.forEach(aluno => {
+  const li = document.createElement("li");
+  li.innerText = `${aluno.nome} - Nota: ${aluno.nota}`;
+  listaHTML.appendChild(li);
+});
